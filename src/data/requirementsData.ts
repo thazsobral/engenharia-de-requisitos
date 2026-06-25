@@ -18,7 +18,7 @@ export const introductionData = {
       description: "Requisitos bem definidos fornecem a base necessária para estimativas realistas de prazos, custos e alocação de equipe."
     }
   ],
-  imageUrl: "/assets/images/ciclo.png",
+  imageUrl: "/engenharia-de-requisitos/assets/images/ciclo.png",
   imageAlt: "Diagrama do Ciclo de Vida da Engenharia de Requisitos"
 };
 
