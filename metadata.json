@@ -1,0 +1,6 @@
+{
+  "name": "Engenharia de Requisitos",
+  "description": "Plataforma educacional interativa sobre Engenharia de Requisitos, abordando conceitos fundamentais, evolução histórica, métodos, IA e desafios práticos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
