@@ -66,7 +66,8 @@ Fase de triagem, modelagem e resolução de conflitos entre requisitos conflitan
 
 * **Técnica: Casos de Uso (UML)**
     * *Explicação:* Modelagem visual e textual da interação do ator com o sistema.
-    * *Exemplo:* ```text
+    * *Exemplo:*
+        ```text
         Caso de Uso: UC01 - Emitir Relatório Financeiro
         Ator Principal: Gestor Financeiro
         Fluxo Principal:
