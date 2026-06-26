@@ -8,7 +8,7 @@ export default defineConfig(() => {
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './engenharia-de-requisitos'),
+        '@': path.resolve(__dirname, '.'),
       },
     },
     server: {
@@ -18,5 +18,6 @@ export default defineConfig(() => {
       // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
     },
+    base: '/engenharia-de-requisitos/',
   };
 });
