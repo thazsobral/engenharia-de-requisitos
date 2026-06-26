@@ -1,83 +1,151 @@
-import Navbar from './components/Navbar';
-import Introduction from './components/Introduction';
-import Timeline from './components/Timeline';
-import Techniques from './components/Techniques';
-import AIEra from './components/AIEra';
-import Protocols from './components/Protocols';
-import Playground from './components/Playground';
-import References from './components/References';
-import { BookOpen, Sparkles, ChevronRight } from 'lucide-react';
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-const sections = [
-  { id: 'introducao', label: 'Introdução' },
-  { id: 'evolucao', label: 'Evolução' },
-  { id: 'tecnicas', label: 'Técnicas' },
-  { id: 'ia', label: 'Era da IA' },
-  { id: 'protocolos', label: 'Protocolos' },
-  { id: 'playground', label: 'Playground' },
-  { id: 'referencias', label: 'Referências' }
-];
+import React, { useEffect, useState } from 'react';
+import { ThemeProvider } from './components/ThemeContext';
+import { Header } from './components/Header';
+import { Hero } from './components/Hero';
+import { WhySection } from './components/WhySection';
+import { WhatIsSection } from './components/WhatIsSection';
+import { TimelineSection } from './components/TimelineSection';
+import { PracticesSection } from './components/PracticesSection';
+import { AiImpactSection } from './components/AiImpactSection';
+import { PlaygroundSection } from './components/PlaygroundSection';
+import { RoadmapSection } from './components/RoadmapSection';
+import { ReferencesSection } from './components/ReferencesSection';
+import { Award, Code, BookOpen, Heart, ArrowUp } from 'lucide-react';
 
 export default function App() {
+  const [activeSection, setActiveSection] = useState('hero');
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // Monitor active sections for scroll navigation highlighting
+  useEffect(() => {
+    const sections = ['hero', 'porque', 'oquee', 'timeline', 'pratica', 'ia', 'playground', 'roadmap'];
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '-30% 0px -60% 0px', // Trigger when section is in the middle of screen
+      threshold: 0,
+    };
+
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, observerOptions);
+
+    sections.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    // Also monitor scroll for Back to Top button
+    const handleScroll = () => {
+      if (window.scrollY > 500) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-bg-primary text-text-primary flex flex-col font-sans antialiased transition-colors duration-300">
-      {/* Top Header Alert / Announcement Banner */}
-      <div className="bg-gradient-to-r from-accent-custom to-accent-hover text-white py-2 px-4 text-center text-xs font-mono font-bold tracking-wider flex items-center justify-center gap-2">
-        <Sparkles className="h-3.5 w-3.5 animate-pulse" />
-        NOVO PROTOCOLO: ENGENHARIA DE REQUISITOS ASSISTIDA POR IA (COPILOT 2026) ADICIONADO
-        <ChevronRight className="h-3 w-3" />
-      </div>
-
-      {/* Modern Sticky Navbar */}
-      <Navbar sections={sections} />
-
-      {/* Hero Header Section */}
-      <header className="relative py-24 md:py-32 overflow-hidden bg-bg-secondary border-b border-border-custom transition-all duration-300">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-accent-custom/5 via-transparent to-transparent -z-10" />
+    <ThemeProvider>
+      <div className="min-h-screen bg-slate-50 text-slate-800 dark:bg-[#0A0A0A] dark:text-[#F5F5F0] transition-colors duration-300 flex flex-col font-sans">
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-custom/10 text-accent-custom text-[11px] font-semibold uppercase tracking-widest font-mono">
-            <BookOpen className="h-4 w-4" />
-            Portal Didático Interativo
-          </div>
+        {/* Sticky Header with Navigation */}
+        <Header activeSection={activeSection} />
+
+        {/* Core Content Body */}
+        <main className="grow">
           
-          <h1 className="font-display text-5xl md:text-7xl font-black tracking-tight text-text-primary leading-none max-w-5xl mx-auto">
-            Engenharia de <span className="bg-gradient-to-r from-accent-custom to-cyan-500 bg-clip-text text-transparent">Requisitos</span>
-          </h1>
-          
-          <p className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto font-sans leading-relaxed">
-            Descubra as metodologias, processos rigorosos e ágeis, e as melhores práticas auxiliadas por Inteligência Artificial para estruturar softwares livres de falhas.
-          </p>
+          {/* Section 1: Hero */}
+          <Hero />
 
-          <div className="pt-6 flex justify-center gap-4">
-            <a
-              href="#playground"
-              className="px-6 py-3 bg-accent-custom hover:bg-accent-hover text-white font-bold rounded-xl text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-[1.02]"
-            >
-              Ir para o Playground
-            </a>
-            <a
-              href="#introducao"
-              className="px-6 py-3 border border-border-custom bg-bg-primary text-text-secondary hover:text-accent-custom hover:bg-bg-tertiary font-bold rounded-xl text-xs uppercase tracking-wider transition-all"
-            >
-              Iniciar Aprendizado
-            </a>
+          {/* Section 2: O Porquê */}
+          <WhySection />
+
+          {/* Section 3: O Que é */}
+          <WhatIsSection />
+
+          {/* Section 4: Evolução Histórica */}
+          <TimelineSection />
+
+          {/* Section 5: Prática e Eficiência */}
+          <PracticesSection />
+
+          {/* Section 6: Impacto da IA */}
+          <AiImpactSection />
+
+          {/* Section 7: Playground Interativo */}
+          <PlaygroundSection />
+
+          {/* Section 8: Roadmap de Carreira */}
+          <RoadmapSection />
+
+          {/* Section 9: Referências Bibliográficas */}
+          <ReferencesSection />
+
+        </main>
+
+        {/* Global Footer */}
+        <footer className="bg-white border-t border-slate-200/80 py-12 dark:bg-black dark:border-white/5 transition-colors duration-300">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center space-y-6">
+            
+            {/* Philosophical citation block */}
+            <div className="max-w-2xl mx-auto">
+              <span className="font-mono text-[10px] font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-widest block mb-1">
+                Manifesto de Compromisso Técnico
+              </span>
+              <p className="text-xs text-slate-500 dark:text-zinc-400 font-light leading-relaxed italic">
+                &quot;Software de alta performance não começa na IDE. Começa na escuta empática e na formulação rigorosa da realidade de negócios.&quot;
+              </p>
+            </div>
+
+            {/* Copyright & Signoff */}
+            <p className="text-[10px] text-slate-400 dark:text-zinc-500 pt-2 flex items-center justify-center gap-1">
+              <span>Desenvolvido por ThazSobral para fins de Educação Tecnológica Prática e Interativa. © 2026.</span>
+            </p>
+
           </div>
-        </div>
-      </header>
+        </footer>
 
-      {/* Main Educational Sections */}
-      <main className="flex-grow">
-        <Introduction />
-        <Timeline />
-        <Techniques />
-        <AIEra />
-        <Protocols />
-        <Playground />
-      </main>
+        {/* Floating Back to Top Button */}
+        {showScrollTop && (
+          <button
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 z-50 flex h-11 w-11 items-center justify-center rounded bg-blue-600 text-white shadow-lg shadow-blue-600/25 hover:bg-blue-500 transition-all duration-300 hover:scale-105 cursor-pointer border border-blue-500/10"
+            aria-label="Voltar para o topo"
+            id="back-to-top-btn"
+          >
+            <ArrowUp className="h-4.5 w-4.5" />
+          </button>
+        )}
 
-      {/* Footer and References */}
-      <References />
-    </div>
+      </div>
+    </ThemeProvider>
   );
 }
